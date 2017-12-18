@@ -1,5 +1,6 @@
 package com.example.asfand.androidproject;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     EditText username,password;
+    ProgressDialog progress;
 
 
     @Override
@@ -38,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
+            progress=new ProgressDialog(getApplicationContext());
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.setMessage("Fetching Data");
+            progress.setIndeterminate(true);
+            progress.show();
 
             mAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -48,13 +55,15 @@ public class MainActivity extends AppCompatActivity {
                                 //Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 Intent i = new Intent(getApplicationContext(), HomePage.class);
+                                progress.dismiss();
                                 startActivity(i);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("abcdefgh", "signInWithEmail:failure", task.getException());
-                                Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                                Toast.makeText(getApplicationContext(),"please fill the fields : "+task.getException(),Toast.LENGTH_SHORT).show();
+                                /*Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();*/
+                                progress.dismiss();
+                                Toast.makeText(getApplicationContext(),task.getException().toString(),Toast.LENGTH_SHORT).show();
                             }
 
                             // ...
