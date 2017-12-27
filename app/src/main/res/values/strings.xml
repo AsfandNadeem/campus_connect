@@ -10,8 +10,8 @@
     <string-array name="category_array">
         <item>All</item>
         <item>General</item>
-    <item>Computer Science</item>
-</string-array>
+        <item>Computer Science</item>
+    </string-array>
 
 
     <string-array name="department">
@@ -25,4 +25,4 @@
         <item>Computer Science</item>
     </string-array>
 
-    </resources>
+</resources>
