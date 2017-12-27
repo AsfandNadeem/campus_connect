@@ -43,6 +43,7 @@ public class HomePage extends AppCompatActivity
         myListView.setAdapter(myAdapter);
         setSupportActionBar(toolbar);
         fillArrayList();
+       // myAdapter.notifyDataSetChanged();
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -146,9 +147,35 @@ public class HomePage extends AppCompatActivity
         DatabaseReference myRef = database.getReference("post");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String s = dataSnapshot.child("abc-abc").child("desc").getValue().toString();
-                Log.d("abcdefghij",s);
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                    int i=0;
+                myRowItems=new ArrayList<ListShow>();
+                myAdapter=new CustomAdapter(getApplicationContext(),myRowItems);
+                myListView.setAdapter(myAdapter);
+
+                for (DataSnapshot childd : dataSnapshot.getChildren())
+                {
+                    try {
+                        i++;
+                        ListShow row_two = new ListShow( );
+                        row_two.setCategory("asjhdskja");
+                        row_two.setDate(childd.child("time").getValue(String.class).toString());
+                        row_two.setDescription(childd.child("desc").getValue(String.class).toString());
+                        row_two.setName(childd.child("banda").getValue(String.class).toString());
+                        myRowItems.add( row_two );
+                        Log.d("abcd",""+childd.child("time").getValue(String.class).toString()+ i);
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                  myAdapter.notifyDataSetChanged();
+
+
+                }
+                /*String s = dataSnapshot.child("abc-abc").child("desc").getValue().toString();
+                Log.d("abcdefghij",s);*/
             }
 
             @Override

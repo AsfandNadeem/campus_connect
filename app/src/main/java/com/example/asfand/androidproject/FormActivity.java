@@ -38,5 +38,6 @@ public class FormActivity extends AppCompatActivity {
         myRef.child("desc").setValue(des.getText().toString());
         myRef.child("phone").setValue(phone.getText().toString());
         myRef.child("email").setValue(email.getText().toString());
+        finish();
     }
 }
