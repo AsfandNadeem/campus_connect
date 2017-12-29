@@ -1,6 +1,7 @@
 package com.example.asfand.androidproject;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +45,9 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         if (convertView == null) {
-            convertView = thisinflater.inflate( R.layout.listcontents, parent, false );
+            convertView = thisinflater.inflate(R.layout.listcontents, parent, false);
+        }
 
             TextView catT = (TextView) convertView.findViewById(R.id.catergory);
             TextView descT = (TextView) convertView.findViewById(R.id.des);
@@ -61,8 +62,6 @@ public class CustomAdapter extends BaseAdapter {
             descT.setText( currentRow.getDescription() );
             nameT.setText(currentRow.getName());
             dateT.setText(currentRow.getDate() );
-
-        }
 
         return convertView;
     }
