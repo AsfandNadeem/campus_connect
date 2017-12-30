@@ -69,10 +69,13 @@ public class HomePage extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+            finish();
         } else {
             super.onBackPressed();
+            finish();
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -163,8 +166,8 @@ public class HomePage extends AppCompatActivity
                         row_two.setDate(childd.child("time").getValue(String.class).toString());
                         row_two.setDescription(childd.child("desc").getValue(String.class).toString());
                         row_two.setName(childd.child("banda").getValue(String.class).toString());
-                        myRowItems.add( row_two );
                         Log.d("abcd",""+childd.child("time").getValue(String.class).toString()+ i);
+                        myRowItems.add( row_two );
                     }
                     catch (Exception e)
                     {
@@ -186,4 +189,5 @@ public class HomePage extends AppCompatActivity
 
 
     }
+
 }

@@ -13,6 +13,12 @@
         <item>Computer Science</item>
     </string-array>
 
+    <string-array name="categoryPost_array">
+        <item>All</item>
+        <item>General</item>
+        <item>Computer Science</item>
+    </string-array>
+
 
     <string-array name="department">
         <item>EE</item>
