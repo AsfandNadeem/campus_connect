@@ -1,7 +1,10 @@
 package com.example.asfand.androidproject;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -40,6 +43,7 @@ public class HomePage extends AppCompatActivity
     String userID="ID";
     String departmentH;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    dbase DB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +57,7 @@ public class HomePage extends AppCompatActivity
 //        database = FirebaseDatabase.getInstance();
         DatabaseReference myRefD = database.getReference("users");
         //DatabaseReference u=myRef.child(id);
+        DB=new dbase(getApplicationContext());
         myRefD.child(list.getString(userID,"")).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -161,19 +166,17 @@ public class HomePage extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
+        if (id == R.id.logout) {
+            Intent i=new Intent(this,MainActivity.class);
+            startActivity(i);
+            finish();
+        } else if (id == R.id.about) {
+
+        } else if (id == R.id.Myposts) {
+
+        } else if (id == R.id.update_info) {
+
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -197,37 +200,131 @@ public class HomePage extends AppCompatActivity
 
         myRowItems.add( row_one );
         myRowItems.add( row_two );*/
+            General();
 
-        DatabaseReference myRef = database.getReference("post");
+
+    }
+
+    public void DBread()
+    {
+        Cursor cursor=DB.dataRead();
+        while(cursor.moveToNext())
+        {
+            ListShow row_two = new ListShow( );
+
+            row_two.setCategory(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_category)));
+            row_two.setDate(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_time)));
+            row_two.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_desc)));
+            row_two.setName(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_Pname)));
+            //Log.d("abcd",""+childd.child("time").getValue(String.class).toString()+ i);
+            myRowItems.add( row_two );
+        }
+        myAdapter.notifyDataSetChanged();
+        cursor.close();
+    }
+
+    public void General()
+    {
+        DatabaseReference myRef = database.getReference("post").child("General");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                    int i=0;
+                int i=0;
                 myRowItems=new ArrayList<ListShow>();
                 myAdapter=new CustomAdapter(getApplicationContext(),myRowItems);
                 myListView.setAdapter(myAdapter);
 
                 for (DataSnapshot childd : dataSnapshot.getChildren())
                 {
+
                     try {
-                        i++;
-                        ListShow row_two = new ListShow( );
+                        ContentValues values = new ContentValues();
+                        values.put(postSchema.postEntry.COLUMN_postid, childd.getKey().toString());
+                        values.put(postSchema.postEntry.COLUMN_title,childd.child("title").getValue(String.class).toString());
+                        values.put(postSchema.postEntry.COLUMN_desc,childd.child("desc").getValue(String.class).toString());
+                        values.put(postSchema.postEntry.COLUMN_email,childd.child("email").getValue(String.class).toString());
+                        values.put(postSchema.postEntry.COLUMN_phone,childd.child("phone").getValue(String.class).toString());
+                        values.put(postSchema.postEntry.COLUMN_userid,childd.child("uid").getValue(String.class).toString());
+                        values.put(postSchema.postEntry.COLUMN_category,childd.child("category").getValue(String.class).toString());
+                        values.put(postSchema.postEntry.COLUMN_time,childd.child("time").getValue(String.class).toString());
+                        values.put(postSchema.postEntry.COLUMN_Pname,childd.child("banda").getValue(String.class).toString());
+                        DB.dataInsert(values);
+
+                        /*ListShow row_two = new ListShow( );
                         row_two.setCategory("asjhdskja");
                         row_two.setDate(childd.child("time").getValue(String.class).toString());
                         row_two.setDescription(childd.child("desc").getValue(String.class).toString());
                         row_two.setName(childd.child("banda").getValue(String.class).toString());
                         Log.d("abcd",""+childd.child("time").getValue(String.class).toString()+ i);
-                        myRowItems.add( row_two );
+                        myRowItems.add( row_two );*/
+                    }
+                    catch (Exception e) {
+
+                    }
+
+
+                }
+                /*String s = dataSnapshot.child("abc-abc").child("desc").getValue().toString();
+                Log.d("abcdefghij",s);*/
+
+                DBread();
+                Category();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+    }
+
+
+    public void Category()
+    {
+        DatabaseReference myRef = database.getReference("post").child(departmentH);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                int i=0;
+                myRowItems=new ArrayList<ListShow>();
+                myAdapter=new CustomAdapter(getApplicationContext(),myRowItems);
+                myListView.setAdapter(myAdapter);
+
+                for (DataSnapshot childd : dataSnapshot.getChildren())
+                {
+
+                    try {
+                        ContentValues values = new ContentValues();
+                        values.put(postSchema.postEntry.COLUMN_postid, childd.getKey().toString());
+                        values.put(postSchema.postEntry.COLUMN_title,childd.child("title").getValue(String.class).toString());
+                        values.put(postSchema.postEntry.COLUMN_desc,childd.child("desc").getValue(String.class).toString());
+                        values.put(postSchema.postEntry.COLUMN_email,childd.child("email").getValue(String.class).toString());
+                        values.put(postSchema.postEntry.COLUMN_phone,childd.child("phone").getValue(String.class).toString());
+                        values.put(postSchema.postEntry.COLUMN_userid,childd.child("uid").getValue(String.class).toString());
+                        values.put(postSchema.postEntry.COLUMN_category,childd.child("category").getValue(String.class).toString());
+                        values.put(postSchema.postEntry.COLUMN_time,childd.child("time").getValue(String.class).toString());
+                        values.put(postSchema.postEntry.COLUMN_Pname,childd.child("banda").getValue(String.class).toString());
+                        DB.dataInsert(values);
+
+                        /*ListShow row_two = new ListShow( );
+                        row_two.setCategory("asjhdskja");
+                        row_two.setDate(childd.child("time").getValue(String.class).toString());
+                        row_two.setDescription(childd.child("desc").getValue(String.class).toString());
+                        row_two.setName(childd.child("banda").getValue(String.class).toString());
+                        Log.d("abcd",""+childd.child("time").getValue(String.class).toString()+ i);
+                        myRowItems.add( row_two );*/
                     }
                     catch (Exception e)
                     {
 
                     }
-                  myAdapter.notifyDataSetChanged();
 
 
                 }
+
+                DBread();
                 /*String s = dataSnapshot.child("abc-abc").child("desc").getValue().toString();
                 Log.d("abcdefghij",s);*/
             }
@@ -237,8 +334,6 @@ public class HomePage extends AppCompatActivity
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-
-
     }
 
 }

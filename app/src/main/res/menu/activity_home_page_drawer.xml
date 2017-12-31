@@ -3,13 +3,17 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/chat"
+            android:id="@+id/Myposts"
             android:icon="@drawable/ic_chat_black_24dp"
-            android:title="Chat" />
+            android:title="My Posts" />
         <item
             android:id="@+id/update_info"
             android:icon="@drawable/ic_account_box_black_24dp"
             android:title="Update Info" />
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_account_box_black_24dp"
+            android:title="Logout" />
         <item
             android:id="@+id/about"
             android:icon="@drawable/ic_info_black_24dp"

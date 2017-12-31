@@ -70,7 +70,6 @@ public class FormActivity extends AppCompatActivity {
 
             DatabaseReference myRef = database.getReference("post");
             DatabaseReference u=myRef.child(category);
-
             u=u.child(sname+title.getText().toString());
             u.child("title").setValue(title.getText().toString());
             u.child("banda").setValue(sname);
@@ -82,7 +81,7 @@ public class FormActivity extends AppCompatActivity {
             u.child("category").setValue(sp.getSelectedItem().toString());
 
 
-        DatabaseReference myRefA = database.getReference("post");
+        /*DatabaseReference myRefA = database.getReference("post");
         myRefA=myRefA.child(sname+title.getText().toString());
         myRefA.child("title").setValue(title.getText().toString());
         myRefA.child("banda").setValue(sname);
@@ -91,7 +90,7 @@ public class FormActivity extends AppCompatActivity {
         myRefA.child("phone").setValue(phone.getText().toString());
         myRefA.child("uid").setValue(userID);
         myRefA.child("email").setValue(email.getText().toString());
-        myRefA.child("category").setValue(sp.getSelectedItem().toString());
+        myRefA.child("category").setValue(sp.getSelectedItem().toString());*/
 
         finish();
     }
