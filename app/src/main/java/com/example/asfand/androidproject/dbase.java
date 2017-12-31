@@ -23,9 +23,11 @@ public class dbase
 
     public void dataInsert(ContentValues values)
     {
-        //db.delete(postSchema.postEntry.TABLE_NAME,null,null);
+       // db.delete(postSchema.postEntry.TABLE_NAME,null,null);
         long newRowId = db.insert(postSchema.postEntry.TABLE_NAME, null, values);
     }
+
+
 
     public Cursor dataRead()
     {
@@ -113,6 +115,41 @@ public class dbase
 
 // Filter results WHERE "title" = 'My Title'
         String selection = postSchema.postEntry.COLUMN_postid+ " = ?";
+        String[] selectionArgs = { cat };
+
+// How you want the results sorted in the resulting Cursor
+//        String sortOrder =
+//                postSchema.postEntry.COLUMN_time + " DESC";
+
+        Cursor cursor = db.query(
+                postSchema.postEntry.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+        return cursor;
+    }
+
+    public Cursor dataReadMyPosts(String cat)
+    {
+        //Log.d("postid",cat);
+        String[] projection = {
+                postSchema.postEntry.COLUMN_userid,
+                postSchema.postEntry.COLUMN_postid,
+                postSchema.postEntry.COLUMN_email,
+                postSchema.postEntry.COLUMN_phone,
+                postSchema.postEntry.COLUMN_desc,
+                postSchema.postEntry.COLUMN_category,
+                postSchema.postEntry.COLUMN_title,
+                postSchema.postEntry.COLUMN_time,
+                postSchema.postEntry.COLUMN_Pname
+        };
+
+// Filter results WHERE "title" = 'My Title'
+        String selection = postSchema.postEntry.COLUMN_userid+ " = ?";
         String[] selectionArgs = { cat };
 
 // How you want the results sorted in the resulting Cursor

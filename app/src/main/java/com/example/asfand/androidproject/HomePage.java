@@ -1,5 +1,6 @@
 package com.example.asfand.androidproject;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,6 +47,7 @@ public class HomePage extends AppCompatActivity
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     String SPValue="All";
     dbase DB;
+    ProgressDialog progress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +57,10 @@ public class HomePage extends AppCompatActivity
         myListView=(ListView) findViewById(R.id.listfeeds) ;
         spH = (Spinner) findViewById(R.id.spinnerHomepage);
         Log.d("userIDH",list.getString(userID,""));
-
+        progress=new ProgressDialog(getApplicationContext());
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setMessage("Fetching Data");
+        progress.setIndeterminate(true);
 //        database = FirebaseDatabase.getInstance();
         DatabaseReference myRefD = database.getReference("users");
         //DatabaseReference u=myRef.child(id);
@@ -177,7 +182,7 @@ public class HomePage extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-            return true;
+            fillArrayList();
         }
         if (id == R.id.action_add) {
             Intent i=new Intent(this,FormActivity.class);
@@ -201,6 +206,8 @@ public class HomePage extends AppCompatActivity
         } else if (id == R.id.about) {
 
         } else if (id == R.id.Myposts) {
+            Intent i=new Intent(this,MyPosts.class);
+            startActivity(i);
 
         }
 
