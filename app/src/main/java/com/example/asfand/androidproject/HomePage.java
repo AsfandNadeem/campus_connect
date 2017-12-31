@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -43,6 +44,7 @@ public class HomePage extends AppCompatActivity
     String userID="ID";
     String departmentH;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    String SPValue="All";
     dbase DB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,20 @@ public class HomePage extends AppCompatActivity
         myListView.setAdapter(myAdapter);
         setSupportActionBar(toolbar);
         fillArrayList();
+
+        spH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                    SPValue=spH.getSelectedItem().toString();
+                    DBread();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
        // myAdapter.notifyDataSetChanged();
 
@@ -174,8 +190,6 @@ public class HomePage extends AppCompatActivity
 
         } else if (id == R.id.Myposts) {
 
-        } else if (id == R.id.update_info) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -205,22 +219,61 @@ public class HomePage extends AppCompatActivity
 
     }
 
+
     public void DBread()
     {
-        Cursor cursor=DB.dataRead();
-        while(cursor.moveToNext())
-        {
-            ListShow row_two = new ListShow( );
+        myRowItems=new ArrayList<ListShow>();
+        myAdapter=new CustomAdapter(getApplicationContext(),myRowItems);
+        myListView.setAdapter(myAdapter);
+        if(SPValue=="All") {
 
-            row_two.setCategory(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_category)));
-            row_two.setDate(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_time)));
-            row_two.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_desc)));
-            row_two.setName(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_Pname)));
-            //Log.d("abcd",""+childd.child("time").getValue(String.class).toString()+ i);
-            myRowItems.add( row_two );
+            Cursor cursor = DB.dataRead();
+            while (cursor.moveToNext()) {
+                ListShow row_two = new ListShow();
+
+                row_two.setCategory(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_category)));
+                row_two.setDate(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_time)));
+                row_two.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_desc)));
+                row_two.setName(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_Pname)));
+                //Log.d("abcd",""+childd.child("time").getValue(String.class).toString()+ i);
+                myRowItems.add(row_two);
+            }
+            cursor.close();
         }
+        else if(SPValue=="General") {
+            Cursor cursor1 = DB.dataReadCategory("General");
+            while (cursor1.moveToNext()) {
+                ListShow row_two = new ListShow();
+
+                row_two.setCategory(cursor1.getString(cursor1.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_category)));
+                row_two.setDate(cursor1.getString(cursor1.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_time)));
+                row_two.setDescription(cursor1.getString(cursor1.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_desc)));
+                row_two.setName(cursor1.getString(cursor1.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_Pname)));
+                //Log.d("abcd",""+childd.child("time").getValue(String.class).toString()+ i);
+                myRowItems.add(row_two);
+            }
+            cursor1.close();
+        }
+        else if(SPValue==departmentH)
+        {
+
+                Cursor cursor2=DB.dataReadCategory(departmentH);
+                while(cursor2.moveToNext()) {
+                    ListShow row_two = new ListShow();
+
+                    row_two.setCategory(cursor2.getString(cursor2.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_category)));
+                    row_two.setDate(cursor2.getString(cursor2.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_time)));
+                    row_two.setDescription(cursor2.getString(cursor2.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_desc)));
+                    row_two.setName(cursor2.getString(cursor2.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_Pname)));
+                    //Log.d("abcd",""+childd.child("time").getValue(String.class).toString()+ i);
+                    myRowItems.add(row_two);
+                }
+                cursor2.close();
+
+
+        }
+
         myAdapter.notifyDataSetChanged();
-        cursor.close();
     }
 
     public void General()
@@ -231,9 +284,6 @@ public class HomePage extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot)
             {
                 int i=0;
-                myRowItems=new ArrayList<ListShow>();
-                myAdapter=new CustomAdapter(getApplicationContext(),myRowItems);
-                myListView.setAdapter(myAdapter);
 
                 for (DataSnapshot childd : dataSnapshot.getChildren())
                 {
@@ -288,9 +338,6 @@ public class HomePage extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot)
             {
                 int i=0;
-                myRowItems=new ArrayList<ListShow>();
-                myAdapter=new CustomAdapter(getApplicationContext(),myRowItems);
-                myListView.setAdapter(myAdapter);
 
                 for (DataSnapshot childd : dataSnapshot.getChildren())
                 {

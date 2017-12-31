@@ -6,10 +6,7 @@
             android:id="@+id/Myposts"
             android:icon="@drawable/ic_chat_black_24dp"
             android:title="My Posts" />
-        <item
-            android:id="@+id/update_info"
-            android:icon="@drawable/ic_account_box_black_24dp"
-            android:title="Update Info" />
+
         <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_account_box_black_24dp"
