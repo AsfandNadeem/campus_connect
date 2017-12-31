@@ -85,11 +85,11 @@ public class HomePage extends AppCompatActivity
 
 
 
-
         myRowItems=new ArrayList<ListShow>();
         myAdapter=new CustomAdapter(getApplicationContext(),myRowItems);
         myListView.setAdapter(myAdapter);
         setSupportActionBar(toolbar);
+        DB.dbclear();
         fillArrayList();
 
         spH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

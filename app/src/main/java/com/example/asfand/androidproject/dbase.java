@@ -27,6 +27,11 @@ public class dbase
         long newRowId = db.insert(postSchema.postEntry.TABLE_NAME, null, values);
     }
 
+    public  void dbclear()
+    {
+        db.delete(postSchema.postEntry.TABLE_NAME,null,null);
+    }
+
 
 
     public Cursor dataRead()
@@ -48,8 +53,8 @@ public class dbase
         String[] selectionArgs = { "My Title" };*/
 
 // How you want the results sorted in the resulting Cursor
-//        String sortOrder =
-//                postSchema.postEntry.COLUMN_time + " DESC";
+        String sortOrder =
+               postSchema.postEntry.COLUMN_time + " DESC";
 
         Cursor cursor = db.query(
                 postSchema.postEntry.TABLE_NAME,                     // The table to query
@@ -58,7 +63,7 @@ public class dbase
                 null,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                null                                 // The sort order
+                sortOrder                                 // The sort order
         );
     return cursor;
     }
@@ -83,8 +88,8 @@ public class dbase
         String[] selectionArgs = { cat };
 
 // How you want the results sorted in the resulting Cursor
-//        String sortOrder =
-//                postSchema.postEntry.COLUMN_time + " DESC";
+        String sortOrder =
+                postSchema.postEntry.COLUMN_time + " DESC";
 
         Cursor cursor = db.query(
                 postSchema.postEntry.TABLE_NAME,                     // The table to query
@@ -93,7 +98,7 @@ public class dbase
                 selectionArgs,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                null                                 // The sort order
+                sortOrder                                 // The sort order
         );
         return cursor;
     }
@@ -118,8 +123,8 @@ public class dbase
         String[] selectionArgs = { cat };
 
 // How you want the results sorted in the resulting Cursor
-//        String sortOrder =
-//                postSchema.postEntry.COLUMN_time + " DESC";
+       String sortOrder =
+                postSchema.postEntry.COLUMN_time + " DESC";
 
         Cursor cursor = db.query(
                 postSchema.postEntry.TABLE_NAME,                     // The table to query
@@ -128,7 +133,7 @@ public class dbase
                 selectionArgs,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                null                                 // The sort order
+                sortOrder                                 // The sort order
         );
         return cursor;
     }
@@ -153,8 +158,8 @@ public class dbase
         String[] selectionArgs = { cat };
 
 // How you want the results sorted in the resulting Cursor
-//        String sortOrder =
-//                postSchema.postEntry.COLUMN_time + " DESC";
+        String sortOrder =
+                postSchema.postEntry.COLUMN_time + " DESC";
 
         Cursor cursor = db.query(
                 postSchema.postEntry.TABLE_NAME,                     // The table to query
@@ -163,7 +168,7 @@ public class dbase
                 selectionArgs,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                null                                 // The sort order
+                sortOrder                                 // The sort order
         );
         return cursor;
     }
