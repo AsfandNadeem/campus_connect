@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -37,6 +38,7 @@ public class FormActivity extends AppCompatActivity {
         list = PreferenceManager.getDefaultSharedPreferences(this);
         title=(EditText)findViewById(R.id.actTitile);
         des=(EditText)findViewById(R.id.actDescription);
+        des.setMovementMethod(new ScrollingMovementMethod());
         phone=(EditText)findViewById(R.id.actPhone);
         email=(EditText)findViewById(R.id.actEmail);
         sdf=new SimpleDateFormat("dd-MM-yyyy");

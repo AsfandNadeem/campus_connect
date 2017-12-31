@@ -120,6 +120,18 @@ public class HomePage extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListShow abc=myRowItems.get(position);
+                String ab=abc.getName()+abc.getDescription();
+                Intent a=new Intent(getApplicationContext(),PostInfo.class);
+                a.putExtra("1234",ab);
+                startActivity(a);
+
+            }
+        });
     }
 
     public void updateSpinner() {
@@ -233,7 +245,7 @@ public class HomePage extends AppCompatActivity
 
                 row_two.setCategory(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_category)));
                 row_two.setDate(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_time)));
-                row_two.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_desc)));
+                row_two.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_title)));
                 row_two.setName(cursor.getString(cursor.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_Pname)));
                 //Log.d("abcd",""+childd.child("time").getValue(String.class).toString()+ i);
                 myRowItems.add(row_two);
@@ -247,7 +259,7 @@ public class HomePage extends AppCompatActivity
 
                 row_two.setCategory(cursor1.getString(cursor1.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_category)));
                 row_two.setDate(cursor1.getString(cursor1.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_time)));
-                row_two.setDescription(cursor1.getString(cursor1.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_desc)));
+                row_two.setDescription(cursor1.getString(cursor1.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_title)));
                 row_two.setName(cursor1.getString(cursor1.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_Pname)));
                 //Log.d("abcd",""+childd.child("time").getValue(String.class).toString()+ i);
                 myRowItems.add(row_two);
@@ -263,7 +275,7 @@ public class HomePage extends AppCompatActivity
 
                     row_two.setCategory(cursor2.getString(cursor2.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_category)));
                     row_two.setDate(cursor2.getString(cursor2.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_time)));
-                    row_two.setDescription(cursor2.getString(cursor2.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_desc)));
+                    row_two.setDescription(cursor2.getString(cursor2.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_title)));
                     row_two.setName(cursor2.getString(cursor2.getColumnIndexOrThrow(postSchema.postEntry.COLUMN_Pname)));
                     //Log.d("abcd",""+childd.child("time").getValue(String.class).toString()+ i);
                     myRowItems.add(row_two);
