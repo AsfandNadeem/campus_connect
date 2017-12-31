@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     String department="department";
     String userID="ID";
     SharedPreferences list;
+    String name="name";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         SharedPreferences.Editor editor = list.edit();
                                         editor.putString(department, dataSnapshot.child("department").getValue(String.class).toString());
+                                        editor.putString(name, dataSnapshot.child("name").getValue(String.class).toString());
                                         editor.commit();
                                         Log.d("depart", dataSnapshot.child("department").getValue(String.class).toString());
 

@@ -26,6 +26,10 @@ public class FormActivity extends AppCompatActivity {
     String department= "department";
     String category;
     SharedPreferences list;
+    String name="name";
+    String sname;
+    String uid="ID";
+    String userID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +39,12 @@ public class FormActivity extends AppCompatActivity {
         des=(EditText)findViewById(R.id.actDescription);
         phone=(EditText)findViewById(R.id.actPhone);
         email=(EditText)findViewById(R.id.actEmail);
-        sdf=new SimpleDateFormat("EEEE,h:mm");
+        sdf=new SimpleDateFormat("dd-MM-yyyy");
         sp = (Spinner) findViewById(R.id.actspinner);
 
        String[] categoryList= {"General",list.getString(department,"") };
-
+       sname=list.getString(name,"");
+        userID=list.getString(uid,"");
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, categoryList);
 // Specify the layout to use when the list of choices appears
@@ -66,9 +71,10 @@ public class FormActivity extends AppCompatActivity {
             DatabaseReference myRef = database.getReference("post");
             DatabaseReference u=myRef.child(category);
 
-            u=u.child("abc-"+title.getText().toString());
+            u=u.child(sname+title.getText().toString());
             u.child("title").setValue(title.getText().toString());
-            u.child("banda").setValue("abc");
+            u.child("banda").setValue(sname);
+            u.child("uid").setValue(userID);
             u.child("time").setValue(sdf.format(Calendar.getInstance().getTime()));
             u.child("desc").setValue(des.getText().toString());
             u.child("phone").setValue(phone.getText().toString());
@@ -77,12 +83,13 @@ public class FormActivity extends AppCompatActivity {
 
 
         DatabaseReference myRefA = database.getReference("post");
-        myRefA=myRefA.child("abc-"+title.getText().toString());
+        myRefA=myRefA.child(sname+title.getText().toString());
         myRefA.child("title").setValue(title.getText().toString());
-        myRefA.child("banda").setValue("abc");
+        myRefA.child("banda").setValue(sname);
         myRefA.child("time").setValue(sdf.format(Calendar.getInstance().getTime()));
         myRefA.child("desc").setValue(des.getText().toString());
         myRefA.child("phone").setValue(phone.getText().toString());
+        myRefA.child("uid").setValue(userID);
         myRefA.child("email").setValue(email.getText().toString());
         myRefA.child("category").setValue(sp.getSelectedItem().toString());
 
