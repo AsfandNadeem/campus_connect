@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     EditText username,password;
     ProgressDialog progress;
     String department="department";
+    String userID="ID";
     SharedPreferences list;
 
     @Override
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void loginClick(View view)
     {
-        if(username.getText().toString()==""||password.getText().toString()=="")
+        if(username.getText().toString().isEmpty()||password.getText().toString().isEmpty())
         {
             Toast.makeText(getApplicationContext(),"please fill the fields",Toast.LENGTH_SHORT).show();
         }
@@ -59,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
                                 //Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 String id = user.getUid();
+                                SharedPreferences.Editor e=list.edit();
+                                e.putString(userID,id);
+                                e.commit();
+                                Log.d("userIDM",id);
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 DatabaseReference myRef = database.getReference("users");
                                 //DatabaseReference u=myRef.child(id);

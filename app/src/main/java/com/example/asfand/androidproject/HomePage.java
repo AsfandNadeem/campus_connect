@@ -1,7 +1,9 @@
 package com.example.asfand.androidproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -14,7 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,19 +34,52 @@ public class HomePage extends AppCompatActivity
     ListView myListView;
     ArrayList<ListShow> myRowItems;
     CustomAdapter myAdapter;
+    Spinner spH;
+    SharedPreferences list;
+    String department= "department";
+    String userID="ID";
+    String departmentH;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+         list= PreferenceManager.getDefaultSharedPreferences(this);
         myListView=(ListView) findViewById(R.id.listfeeds) ;
+        spH = (Spinner) findViewById(R.id.spinnerHomepage);
+        Log.d("userIDH",list.getString(userID,""));
+
+//        database = FirebaseDatabase.getInstance();
+        DatabaseReference myRefD = database.getReference("users");
+        //DatabaseReference u=myRef.child(id);
+        myRefD.child(list.getString(userID,"")).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                departmentH=dataSnapshot.child("department").getValue(String.class).toString();
+                Log.d("departHfromUser",departmentH);
+                updateSpinner();
+
+            }
+
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+
+        });
+
+
+
+
 
         myRowItems=new ArrayList<ListShow>();
         myAdapter=new CustomAdapter(getApplicationContext(),myRowItems);
         myListView.setAdapter(myAdapter);
         setSupportActionBar(toolbar);
         fillArrayList();
+
        // myAdapter.notifyDataSetChanged();
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -64,6 +101,20 @@ public class HomePage extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    public void updateSpinner() {
+        String[] categoryList= {"All","General",departmentH };
+        // Log.d("departH",list.getString(department,""));
+
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, categoryList);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spH.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

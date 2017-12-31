@@ -1,6 +1,5 @@
 package com.example.asfand.androidproject;
 
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,8 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Login extends AppCompatActivity {
     private FirebaseAuth mAuth;
     // ...
+    private EditText email;
     private EditText name;
-    private EditText regNo;
     private EditText password;
     private EditText confirmPass;
     private Spinner spinner;
@@ -34,8 +33,8 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
+        email = (EditText) findViewById(R.id.emailText);
         name = (EditText) findViewById(R.id.nameText);
-        regNo = (EditText) findViewById(R.id.regText);
         password = (EditText) findViewById(R.id.passText);
         confirmPass = (EditText) findViewById(R.id.conPassText);
         spinner = (Spinner) findViewById(R.id.spinner);
@@ -45,16 +44,16 @@ public class Login extends AppCompatActivity {
 
     public void signUp(View view) {
         String i = spinner.getSelectedItem().toString();
+        String ema = email.getText().toString();
         String nam = name.getText().toString();
-        String re = regNo.getText().toString();
         String pass = password.getText().toString();
         String conpass = confirmPass.getText().toString();
 
-        if (nam == "" || re == "" || pass == "") {
+        if (email.getText().toString().isEmpty()|| name.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please fill required fields", Toast.LENGTH_SHORT).show();
         } else {
             if (pass.equals(conpass)) {
-                mAuth.createUserWithEmailAndPassword(nam, pass)
+                mAuth.createUserWithEmailAndPassword(ema, pass)
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -64,10 +63,10 @@ public class Login extends AppCompatActivity {
                                     DatabaseReference myRef = database.getReference("users");
 
                                     DatabaseReference u=myRef.child(id);
-                                    u.child("email").setValue(name.getText().toString());
+                                    u.child("email").setValue(email.getText().toString());
                                     u.child("department").setValue(spinner.getSelectedItem().toString());
-                                    u.child("regNo").setValue(regNo.getText().toString());
-
+                                    u.child("name").setValue(name.getText().toString());
+                                    finish();
 
 
                                 } else {
