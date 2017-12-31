@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
                                 });
                                 Intent i = new Intent(getApplicationContext(), HomePage.class);
                                 startActivity(i);
-                                finish();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("abcdefgh", "signInWithEmail:failure", task.getException());

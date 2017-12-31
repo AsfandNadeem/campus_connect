@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/campus_connect.iml" filepath="$PROJECT_DIR$/campus_connect.iml" />
+      <module fileurl="file://C:\Users\Muhammad Jasim\Downloads\Compressed\campus_connect-master2\campus_connect-master\campus_connect.iml" filepath="C:\Users\Muhammad Jasim\Downloads\Compressed\campus_connect-master2\campus_connect-master\campus_connect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/campus_connect-master.iml" filepath="$PROJECT_DIR$/campus_connect-master.iml" />
     </modules>
   </component>
 </project>

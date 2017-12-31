@@ -10,17 +10,17 @@
         android:id="@+id/emailText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
         android:ems="10"
+        android:inputType="textPersonName"
         android:hint="Email"
-        android:inputType="textWebEmailAddress"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <EditText
         android:id="@+id/nameText"
@@ -31,8 +31,8 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Name"
         android:inputType="textPersonName"
+        android:hint="Name"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -80,6 +80,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
+        style="?android:attr/borderlessButtonStyle"
         android:text="Sign-Up"
         android:onClick="signUp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -118,4 +119,16 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toTopOf="@+id/spinner" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="306dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/fillform" />
 </android.support.constraint.ConstraintLayout>
