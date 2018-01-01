@@ -42,6 +42,18 @@ public class MainActivity extends AppCompatActivity {
         password=(EditText)findViewById(R.id.editText2);
 
         list = PreferenceManager.getDefaultSharedPreferences(this);
+        Log.d("userIN",list.getString(userID,""));
+
+        if(list.getString(userID,"").equals(""))
+       {
+
+        }
+
+        else
+        {
+            Intent i=new Intent(this,HomePage.class);
+            startActivity(i);
+        }
     }
 
     public void loginClick(View view)
@@ -52,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
+
+            Toast.makeText(getApplicationContext(),"Logging In",Toast.LENGTH_LONG).show();
             mAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override

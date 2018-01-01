@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.asfand.androidproject.AboutActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="330dp"
+        android:layout_height="462dp"
+        android:maxLines="100"
+        android:text="App Created By:
+Asfand Nadeem ,Abbas Nazar and Muhammad Jasim\nThere exists no such social application which only caters to the social needs of university students. An application is required for the purpose of connecting students and informing them about activities and events that are going to take place in their university. A student might have a query for other university students but there exists no such forum/application where his query can be entertained easily.
+
+\nWe have developed an application that can enable the students of a university to connect with each other. The application will allow the university students to upload a post regarding any activity or event. The app will have different categories regarding to the nature of the post. The students can select the category and then post something according to the category chosen. The app will be interactive and easy to use.
+
+\nContact:
+\nasfandnadeem116@gmail.com
+]nQueries and feedback will be appreiated"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="2dp"
+        app:layout_constraintVertical_bias="0.526"
+        />
+
+    <Button
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="-11dp"
+        android:layout_marginTop="0dp"
+        android:onClick="backPress"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+</android.support.constraint.ConstraintLayout>

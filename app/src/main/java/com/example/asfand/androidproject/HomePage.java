@@ -24,6 +24,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,11 +45,12 @@ public class HomePage extends AppCompatActivity
     SharedPreferences list;
     String department= "department";
     String userID="ID";
-    String departmentH;
+    String departmentH,nameH,emailH;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     String SPValue="All";
     dbase DB;
     ProgressDialog progress;
+    TextView drawerName,drawerEm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +64,8 @@ public class HomePage extends AppCompatActivity
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setMessage("Fetching Data");
         progress.setIndeterminate(true);
+
+        //fillArrayList();
 //        database = FirebaseDatabase.getInstance();
         DatabaseReference myRefD = database.getReference("users");
         //DatabaseReference u=myRef.child(id);
@@ -70,7 +75,14 @@ public class HomePage extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 departmentH=dataSnapshot.child("department").getValue(String.class).toString();
-                Log.d("departHfromUser",departmentH);
+                nameH=dataSnapshot.child("name").getValue(String.class).toString();
+                emailH=dataSnapshot.child("email").getValue(String.class).toString();
+                Log.d("UsernameH",nameH);
+                Log.d("UseremailH",emailH);
+                Log.d("UserdepartHfromUser",departmentH);
+                SharedPreferences.Editor e=list.edit();
+                e.putString(department,departmentH);
+                e.commit();
                 updateSpinner();
 
             }
@@ -89,7 +101,7 @@ public class HomePage extends AppCompatActivity
         myAdapter=new CustomAdapter(getApplicationContext(),myRowItems);
         myListView.setAdapter(myAdapter);
         setSupportActionBar(toolbar);
-        DB.dbclear();
+        //DB.dbclear();
         fillArrayList();
 
         spH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -117,6 +129,8 @@ public class HomePage extends AppCompatActivity
 //            }
 //        });
 
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -125,6 +139,12 @@ public class HomePage extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+//        navUsername = (TextView) headerView.findViewById(R.id.navUsername);
+//        navUsernam.setText("Your Text Here");
+
+       drawerName=(TextView) headerView.findViewById(R.id.drawerText);
+        drawerEm=(TextView) headerView.findViewById(R.id.drawerEmail);
 
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -139,6 +159,15 @@ public class HomePage extends AppCompatActivity
         });
     }
 
+    //   @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if(spH.getSelectedItem()!="All")
+//        {
+//            updateSpinner();
+//        }
+//    }
+
     public void updateSpinner() {
         String[] categoryList= {"All","General",departmentH };
         // Log.d("departH",list.getString(department,""));
@@ -151,6 +180,9 @@ public class HomePage extends AppCompatActivity
         spH.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
+        drawerName.setText(nameH);
+        drawerEm.setText(emailH);
+
 
     }
     @Override
@@ -159,9 +191,11 @@ public class HomePage extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
             finish();
+            System.exit(0);
         } else {
             super.onBackPressed();
             finish();
+            System.exit(0);
         }
     }
 
@@ -200,10 +234,18 @@ public class HomePage extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.logout) {
-            Intent i=new Intent(this,MainActivity.class);
-            startActivity(i);
+            SharedPreferences.Editor editor = list.edit();
+           editor.putString(userID, "");
+
+            editor.commit();
+//            Intent i=new Intent(this,MainActivity.class);
+//            startActivity(i);
             finish();
+            System.exit(0);
         } else if (id == R.id.about) {
+            Intent i=new Intent(this,AboutActivity.class);
+            startActivity(i);
+
 
         } else if (id == R.id.Myposts) {
             Intent i=new Intent(this,MyPosts.class);
@@ -217,22 +259,8 @@ public class HomePage extends AppCompatActivity
     }
 
     private void fillArrayList() {
-
-        /*ListShow row_one = new ListShow( );
-        row_one.setCategory("General");
-        row_one.setDate("30-Nov-2017");
-        row_one.setDescription("Fall 15 Sports Gala");
-        row_one.setName("Abbas Nazar");
-
-        ListShow row_two = new ListShow( );
-        row_two.setCategory("General");
-        row_two.setDate("30-Nov-2017");
-        row_two.setDescription("Fall 15 Sports Gala");
-        row_two.setName("Abbas Nazar");
-
-
-        myRowItems.add( row_one );
-        myRowItems.add( row_two );*/
+        Toast.makeText(getApplicationContext(),"Fetching Data",Toast.LENGTH_LONG).show();
+        DB.dbclear();
             General();
 
 
@@ -351,7 +379,7 @@ public class HomePage extends AppCompatActivity
 
     public void Category()
     {
-        DatabaseReference myRef = database.getReference("post").child(departmentH);
+        DatabaseReference myRef = database.getReference("post").child(list.getString(department,""));
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)

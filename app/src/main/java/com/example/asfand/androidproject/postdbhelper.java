@@ -26,7 +26,7 @@ public class postdbhelper extends SQLiteOpenHelper
             "DROP TABLE IF EXISTS " + postSchema.postEntry.TABLE_NAME;
 
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "post.db";
+    public static final String DATABASE_NAME = "po.db";
 
     public postdbhelper(Context context)
     {

@@ -27,9 +27,10 @@ public class dbase
         long newRowId = db.insert(postSchema.postEntry.TABLE_NAME, null, values);
     }
 
-    public  void dbclear()
-    {
-        db.delete(postSchema.postEntry.TABLE_NAME,null,null);
+    public  void dbclear() {
+
+        Log.d("dbbase",postSchema.postEntry.TABLE_NAME+"kesa ha?");
+        db.delete(postSchema.postEntry.TABLE_NAME, null, null);
     }
 
 
